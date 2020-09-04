@@ -1,0 +1,53 @@
+presubmits:
+  IBM/cp4mcm-runtime-management:
+  - name: check_cp4mcm-runtime-management
+    branches:
+    - ^master$
+    decorate: true
+    always_run: true
+    path_alias: github.com/IBM/cp4mcm-runtime-management
+    rerun_command: /test check cp4mcm-runtime-management
+    spec:
+      containers:
+      - command:
+        - make
+        - check
+    trigger: '(?m)^/test (?:.*? )?check(?: .*?)?$'
+  - name: test_cp4mcm-runtime-management
+    branches:
+    - ^master$
+    decorate: true
+    always_run: true
+    path_alias: github.com/IBM/cp4mcm-runtime-management
+    rerun_command: /test test cp4mcm-runtime-management
+    spec:
+      containers:
+      - command:
+        - entrypoint
+        - make
+        - test
+    trigger: '(?m)^/test (?:.*? )?test(?: .*?)?$'
+
+postsubmits:
+  IBM/cp4mcm-runtime-management:
+  - name: check_cp4mcm-runtime-management_postsubmit
+    branches:
+    - ^master$
+    decorate: true
+    path_alias: github.com/IBM/cp4mcm-runtime-management
+    spec:
+      containers:
+      - command:
+        - make
+        - check
+  - name: test_cp4mcm-runtime-management_postsubmit
+    branches:
+    - ^master$
+    decorate: true
+    path_alias: github.com/IBM/cp4mcm-runtime-management
+    spec:
+      containers:
+      - command:
+        - entrypoint
+        - make
+        - test
